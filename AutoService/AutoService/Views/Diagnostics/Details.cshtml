@@ -1,0 +1,50 @@
+﻿@model AutoService.Models.Diagnostics
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Diagnostics</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosticsDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosticsDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FailureReasons)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FailureReasons)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Car.Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car.Brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.FullName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DiagnosticsID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

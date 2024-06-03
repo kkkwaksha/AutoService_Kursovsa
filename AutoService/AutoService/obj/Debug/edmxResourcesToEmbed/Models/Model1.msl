@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AutoServiceDBModelStoreContainer" CdmEntityContainer="AutoServiceDBEntities">
+    <EntitySetMapping Name="Car">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.Car">
+        <MappingFragment StoreEntitySet="Car">
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="VINCode" ColumnName="VINCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarOwner">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.CarOwner">
+        <MappingFragment StoreEntitySet="CarOwner">
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Contacts" ColumnName="Contacts" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DemandDocument">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.DemandDocument">
+        <MappingFragment StoreEntitySet="DemandDocument">
+          <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+          <ScalarProperty Name="RepairID" ColumnName="RepairID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Diagnostics">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.Diagnostics">
+        <MappingFragment StoreEntitySet="Diagnostics">
+          <ScalarProperty Name="DiagnosticsID" ColumnName="DiagnosticsID" />
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="DiagnosticsDate" ColumnName="DiagnosticsDate" />
+          <ScalarProperty Name="FailureReasons" ColumnName="FailureReasons" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DocumentLine">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.DocumentLine">
+        <MappingFragment StoreEntitySet="DocumentLine">
+          <ScalarProperty Name="LineID" ColumnName="LineID" />
+          <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employee">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Contacts" ColumnName="Contacts" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Part">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.Part">
+        <MappingFragment StoreEntitySet="Part">
+          <ScalarProperty Name="PartID" ColumnName="PartID" />
+          <ScalarProperty Name="PartName" ColumnName="PartName" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="StockLeft" ColumnName="StockLeft" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Repair">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.Repair">
+        <MappingFragment StoreEntitySet="Repair">
+          <ScalarProperty Name="RepairID" ColumnName="RepairID" />
+          <ScalarProperty Name="CarID" ColumnName="CarID" />
+          <ScalarProperty Name="WarrantyID" ColumnName="WarrantyID" />
+          <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="Cost" ColumnName="Cost" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Warranty">
+      <EntityTypeMapping TypeName="AutoServiceDBModel.Warranty">
+        <MappingFragment StoreEntitySet="Warranty">
+          <ScalarProperty Name="WarrantyID" ColumnName="WarrantyID" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Terms" ColumnName="Terms" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="DiagnosticsPart" TypeName="AutoServiceDBModel.DiagnosticsPart" StoreEntitySet="DiagnosticsPart">
+      <EndProperty Name="Diagnostics">
+        <ScalarProperty Name="DiagnosticsID" ColumnName="DiagnosticsID" />
+      </EndProperty>
+      <EndProperty Name="Part">
+        <ScalarProperty Name="PartID" ColumnName="PartID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

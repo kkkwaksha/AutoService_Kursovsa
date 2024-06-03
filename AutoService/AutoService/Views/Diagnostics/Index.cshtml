@@ -1,0 +1,52 @@
+﻿@model IEnumerable<AutoService.Models.Diagnostics>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DiagnosticsDate)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FailureReasons)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Car.Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employee.FullName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.DiagnosticsDate.ToString("dd/MM/yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FailureReasons)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Car.Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.FullName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DiagnosticsID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DiagnosticsID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DiagnosticsID })
+        </td>
+    </tr>
+}
+
+</table>

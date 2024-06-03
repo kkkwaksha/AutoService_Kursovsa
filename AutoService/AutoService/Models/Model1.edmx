@@ -1,0 +1,703 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AutoServiceDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="CarID" />
+          </Key>
+          <Property Name="CarID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerID" Type="int" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="VINCode" Type="nvarchar" MaxLength="17" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CarOwner">
+          <Key>
+            <PropertyRef Name="OwnerID" />
+          </Key>
+          <Property Name="OwnerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Contacts" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DemandDocument">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+          </Key>
+          <Property Name="DocumentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RepairID" Type="int" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Diagnostics">
+          <Key>
+            <PropertyRef Name="DiagnosticsID" />
+          </Key>
+          <Property Name="DiagnosticsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarID" Type="int" />
+          <Property Name="EmployeeID" Type="int" />
+          <Property Name="DiagnosticsDate" Type="date" Nullable="false" />
+          <Property Name="FailureReasons" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DiagnosticsPart">
+          <Key>
+            <PropertyRef Name="DiagnosticsID" />
+            <PropertyRef Name="PartID" />
+          </Key>
+          <Property Name="DiagnosticsID" Type="int" Nullable="false" />
+          <Property Name="PartID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentLine">
+          <Key>
+            <PropertyRef Name="LineID" />
+          </Key>
+          <Property Name="LineID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DocumentID" Type="int" />
+          <Property Name="PartID" Type="int" />
+          <Property Name="Quantity" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Contacts" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="PartID" />
+          </Key>
+          <Property Name="PartID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="StockLeft" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Repair">
+          <Key>
+            <PropertyRef Name="RepairID" />
+          </Key>
+          <Property Name="RepairID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarID" Type="int" />
+          <Property Name="WarrantyID" Type="int" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Warranty">
+          <Key>
+            <PropertyRef Name="WarrantyID" />
+          </Key>
+          <Property Name="WarrantyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Duration" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Terms" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Car__OwnerID__276EDEB3">
+          <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOwner">
+              <PropertyRef Name="OwnerID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="OwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DemandDoc__Repai__3A81B327">
+          <End Role="Repair" Type="Self.Repair" Multiplicity="0..1" />
+          <End Role="DemandDocument" Type="Self.DemandDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repair">
+              <PropertyRef Name="RepairID" />
+            </Principal>
+            <Dependent Role="DemandDocument">
+              <PropertyRef Name="RepairID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diagnosti__Diagn__412EB0B6">
+          <End Role="Diagnostics" Type="Self.Diagnostics" Multiplicity="1" />
+          <End Role="DiagnosticsPart" Type="Self.DiagnosticsPart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnostics">
+              <PropertyRef Name="DiagnosticsID" />
+            </Principal>
+            <Dependent Role="DiagnosticsPart">
+              <PropertyRef Name="DiagnosticsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diagnosti__Emplo__35BCFE0A">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Diagnostics" Type="Self.Diagnostics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Diagnostics">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diagnosti__PartI__4222D4EF">
+          <End Role="Part" Type="Self.Part" Multiplicity="1" />
+          <End Role="DiagnosticsPart" Type="Self.DiagnosticsPart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="PartID" />
+            </Principal>
+            <Dependent Role="DiagnosticsPart">
+              <PropertyRef Name="PartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentL__Docum__3D5E1FD2">
+          <End Role="DemandDocument" Type="Self.DemandDocument" Multiplicity="0..1" />
+          <End Role="DocumentLine" Type="Self.DocumentLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DemandDocument">
+              <PropertyRef Name="DocumentID" />
+            </Principal>
+            <Dependent Role="DocumentLine">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentL__PartI__3E52440B">
+          <End Role="Part" Type="Self.Part" Multiplicity="0..1" />
+          <End Role="DocumentLine" Type="Self.DocumentLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="PartID" />
+            </Principal>
+            <Dependent Role="DocumentLine">
+              <PropertyRef Name="PartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Repair__CarID__300424B4">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Repair__Employee__31EC6D26">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Repair__Warranty__30F848ED">
+          <End Role="Warranty" Type="Self.Warranty" Multiplicity="0..1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warranty">
+              <PropertyRef Name="WarrantyID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="WarrantyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Diagnostics_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="Diagnostics" Type="Self.Diagnostics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="Diagnostics">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutoServiceDBModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarOwner" EntityType="Self.CarOwner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DemandDocument" EntityType="Self.DemandDocument" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Diagnostics" EntityType="Self.Diagnostics" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DiagnosticsPart" EntityType="Self.DiagnosticsPart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentLine" EntityType="Self.DocumentLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Part" EntityType="Self.Part" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repair" EntityType="Self.Repair" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warranty" EntityType="Self.Warranty" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Car__OwnerID__276EDEB3" Association="Self.FK__Car__OwnerID__276EDEB3">
+            <End Role="CarOwner" EntitySet="CarOwner" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DemandDoc__Repai__3A81B327" Association="Self.FK__DemandDoc__Repai__3A81B327">
+            <End Role="Repair" EntitySet="Repair" />
+            <End Role="DemandDocument" EntitySet="DemandDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diagnosti__Diagn__412EB0B6" Association="Self.FK__Diagnosti__Diagn__412EB0B6">
+            <End Role="Diagnostics" EntitySet="Diagnostics" />
+            <End Role="DiagnosticsPart" EntitySet="DiagnosticsPart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diagnosti__Emplo__35BCFE0A" Association="Self.FK__Diagnosti__Emplo__35BCFE0A">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Diagnostics" EntitySet="Diagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diagnosti__PartI__4222D4EF" Association="Self.FK__Diagnosti__PartI__4222D4EF">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="DiagnosticsPart" EntitySet="DiagnosticsPart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentL__Docum__3D5E1FD2" Association="Self.FK__DocumentL__Docum__3D5E1FD2">
+            <End Role="DemandDocument" EntitySet="DemandDocument" />
+            <End Role="DocumentLine" EntitySet="DocumentLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentL__PartI__3E52440B" Association="Self.FK__DocumentL__PartI__3E52440B">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="DocumentLine" EntitySet="DocumentLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Repair__CarID__300424B4" Association="Self.FK__Repair__CarID__300424B4">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Repair__Employee__31EC6D26" Association="Self.FK__Repair__Employee__31EC6D26">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Repair__Warranty__30F848ED" Association="Self.FK__Repair__Warranty__30F848ED">
+            <End Role="Warranty" EntitySet="Warranty" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Diagnostics_Car" Association="Self.FK_Diagnostics_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Diagnostics" EntitySet="Diagnostics" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutoServiceDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="CarID" />
+          </Key>
+          <Property Name="CarID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerID" Type="Int32" />
+          <Property Name="Brand" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="VINCode" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CarOwner" Relationship="Self.FK__Car__OwnerID__276EDEB3" FromRole="Car" ToRole="CarOwner" />
+          <NavigationProperty Name="Repair" Relationship="Self.FK__Repair__CarID__300424B4" FromRole="Car" ToRole="Repair" />
+          <NavigationProperty Name="Diagnostics" Relationship="Self.FK_Diagnostics_Car" FromRole="Car" ToRole="Diagnostics" />
+        </EntityType>
+        <EntityType Name="CarOwner">
+          <Key>
+            <PropertyRef Name="OwnerID" />
+          </Key>
+          <Property Name="OwnerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contacts" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Car__OwnerID__276EDEB3" FromRole="CarOwner" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="DemandDocument">
+          <Key>
+            <PropertyRef Name="DocumentID" />
+          </Key>
+          <Property Name="DocumentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RepairID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Repair" Relationship="Self.FK__DemandDoc__Repai__3A81B327" FromRole="DemandDocument" ToRole="Repair" />
+          <NavigationProperty Name="DocumentLine" Relationship="Self.FK__DocumentL__Docum__3D5E1FD2" FromRole="DemandDocument" ToRole="DocumentLine" />
+        </EntityType>
+        <EntityType Name="Diagnostics">
+          <Key>
+            <PropertyRef Name="DiagnosticsID" />
+          </Key>
+          <Property Name="DiagnosticsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarID" Type="Int32" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <Property Name="DiagnosticsDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FailureReasons" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK_Diagnostics_Car" FromRole="Diagnostics" ToRole="Car" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Diagnosti__Emplo__35BCFE0A" FromRole="Diagnostics" ToRole="Employee" />
+          <NavigationProperty Name="Part" Relationship="Self.DiagnosticsPart" FromRole="Diagnostics" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="DocumentLine">
+          <Key>
+            <PropertyRef Name="LineID" />
+          </Key>
+          <Property Name="LineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentID" Type="Int32" />
+          <Property Name="PartID" Type="Int32" />
+          <Property Name="Quantity" Type="Decimal" Precision="10" Scale="3" Nullable="false" />
+          <NavigationProperty Name="DemandDocument" Relationship="Self.FK__DocumentL__Docum__3D5E1FD2" FromRole="DocumentLine" ToRole="DemandDocument" />
+          <NavigationProperty Name="Part" Relationship="Self.FK__DocumentL__PartI__3E52440B" FromRole="DocumentLine" ToRole="Part" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contacts" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Diagnostics" Relationship="Self.FK__Diagnosti__Emplo__35BCFE0A" FromRole="Employee" ToRole="Diagnostics" />
+          <NavigationProperty Name="Repair" Relationship="Self.FK__Repair__Employee__31EC6D26" FromRole="Employee" ToRole="Repair" />
+        </EntityType>
+        <EntityType Name="Part">
+          <Key>
+            <PropertyRef Name="PartID" />
+          </Key>
+          <Property Name="PartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="StockLeft" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DocumentLine" Relationship="Self.FK__DocumentL__PartI__3E52440B" FromRole="Part" ToRole="DocumentLine" />
+          <NavigationProperty Name="Diagnostics" Relationship="Self.DiagnosticsPart" FromRole="Part" ToRole="Diagnostics" />
+        </EntityType>
+        <EntityType Name="Repair">
+          <Key>
+            <PropertyRef Name="RepairID" />
+          </Key>
+          <Property Name="RepairID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarID" Type="Int32" />
+          <Property Name="WarrantyID" Type="Int32" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Repair__CarID__300424B4" FromRole="Repair" ToRole="Car" />
+          <NavigationProperty Name="DemandDocument" Relationship="Self.FK__DemandDoc__Repai__3A81B327" FromRole="Repair" ToRole="DemandDocument" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Repair__Employee__31EC6D26" FromRole="Repair" ToRole="Employee" />
+          <NavigationProperty Name="Warranty" Relationship="Self.FK__Repair__Warranty__30F848ED" FromRole="Repair" ToRole="Warranty" />
+        </EntityType>
+        <EntityType Name="Warranty">
+          <Key>
+            <PropertyRef Name="WarrantyID" />
+          </Key>
+          <Property Name="WarrantyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Duration" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Terms" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Repair" Relationship="Self.FK__Repair__Warranty__30F848ED" FromRole="Warranty" ToRole="Repair" />
+        </EntityType>
+        <Association Name="FK__Car__OwnerID__276EDEB3">
+          <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOwner">
+              <PropertyRef Name="OwnerID" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="OwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Repair__CarID__300424B4">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Diagnostics_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="0..1" />
+          <End Role="Diagnostics" Type="Self.Diagnostics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="CarID" />
+            </Principal>
+            <Dependent Role="Diagnostics">
+              <PropertyRef Name="CarID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DemandDoc__Repai__3A81B327">
+          <End Role="Repair" Type="Self.Repair" Multiplicity="0..1" />
+          <End Role="DemandDocument" Type="Self.DemandDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repair">
+              <PropertyRef Name="RepairID" />
+            </Principal>
+            <Dependent Role="DemandDocument">
+              <PropertyRef Name="RepairID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentL__Docum__3D5E1FD2">
+          <End Role="DemandDocument" Type="Self.DemandDocument" Multiplicity="0..1" />
+          <End Role="DocumentLine" Type="Self.DocumentLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DemandDocument">
+              <PropertyRef Name="DocumentID" />
+            </Principal>
+            <Dependent Role="DocumentLine">
+              <PropertyRef Name="DocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Diagnosti__Emplo__35BCFE0A">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Diagnostics" Type="Self.Diagnostics" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Diagnostics">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentL__PartI__3E52440B">
+          <End Role="Part" Type="Self.Part" Multiplicity="0..1" />
+          <End Role="DocumentLine" Type="Self.DocumentLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Part">
+              <PropertyRef Name="PartID" />
+            </Principal>
+            <Dependent Role="DocumentLine">
+              <PropertyRef Name="PartID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Repair__Employee__31EC6D26">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Repair__Warranty__30F848ED">
+          <End Role="Warranty" Type="Self.Warranty" Multiplicity="0..1" />
+          <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Warranty">
+              <PropertyRef Name="WarrantyID" />
+            </Principal>
+            <Dependent Role="Repair">
+              <PropertyRef Name="WarrantyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DiagnosticsPart">
+          <End Role="Diagnostics" Type="Self.Diagnostics" Multiplicity="*" />
+          <End Role="Part" Type="Self.Part" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AutoServiceDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Car" EntityType="Self.Car" />
+          <EntitySet Name="CarOwner" EntityType="Self.CarOwner" />
+          <EntitySet Name="DemandDocument" EntityType="Self.DemandDocument" />
+          <EntitySet Name="Diagnostics" EntityType="Self.Diagnostics" />
+          <EntitySet Name="DocumentLine" EntityType="Self.DocumentLine" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="Part" EntityType="Self.Part" />
+          <EntitySet Name="Repair" EntityType="Self.Repair" />
+          <EntitySet Name="Warranty" EntityType="Self.Warranty" />
+          <AssociationSet Name="FK__Car__OwnerID__276EDEB3" Association="Self.FK__Car__OwnerID__276EDEB3">
+            <End Role="CarOwner" EntitySet="CarOwner" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Repair__CarID__300424B4" Association="Self.FK__Repair__CarID__300424B4">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Diagnostics_Car" Association="Self.FK_Diagnostics_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Diagnostics" EntitySet="Diagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DemandDoc__Repai__3A81B327" Association="Self.FK__DemandDoc__Repai__3A81B327">
+            <End Role="Repair" EntitySet="Repair" />
+            <End Role="DemandDocument" EntitySet="DemandDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentL__Docum__3D5E1FD2" Association="Self.FK__DocumentL__Docum__3D5E1FD2">
+            <End Role="DemandDocument" EntitySet="DemandDocument" />
+            <End Role="DocumentLine" EntitySet="DocumentLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Diagnosti__Emplo__35BCFE0A" Association="Self.FK__Diagnosti__Emplo__35BCFE0A">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Diagnostics" EntitySet="Diagnostics" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentL__PartI__3E52440B" Association="Self.FK__DocumentL__PartI__3E52440B">
+            <End Role="Part" EntitySet="Part" />
+            <End Role="DocumentLine" EntitySet="DocumentLine" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Repair__Employee__31EC6D26" Association="Self.FK__Repair__Employee__31EC6D26">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Repair__Warranty__30F848ED" Association="Self.FK__Repair__Warranty__30F848ED">
+            <End Role="Warranty" EntitySet="Warranty" />
+            <End Role="Repair" EntitySet="Repair" />
+          </AssociationSet>
+          <AssociationSet Name="DiagnosticsPart" Association="Self.DiagnosticsPart">
+            <End Role="Diagnostics" EntitySet="Diagnostics" />
+            <End Role="Part" EntitySet="Part" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AutoServiceDBModelStoreContainer" CdmEntityContainer="AutoServiceDBEntities">
+          <EntitySetMapping Name="Car">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="VINCode" ColumnName="VINCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarOwner">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.CarOwner">
+              <MappingFragment StoreEntitySet="CarOwner">
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Contacts" ColumnName="Contacts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DemandDocument">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.DemandDocument">
+              <MappingFragment StoreEntitySet="DemandDocument">
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="RepairID" ColumnName="RepairID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diagnostics">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.Diagnostics">
+              <MappingFragment StoreEntitySet="Diagnostics">
+                <ScalarProperty Name="DiagnosticsID" ColumnName="DiagnosticsID" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="DiagnosticsDate" ColumnName="DiagnosticsDate" />
+                <ScalarProperty Name="FailureReasons" ColumnName="FailureReasons" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentLine">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.DocumentLine">
+              <MappingFragment StoreEntitySet="DocumentLine">
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="PartID" ColumnName="PartID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Contacts" ColumnName="Contacts" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Part">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.Part">
+              <MappingFragment StoreEntitySet="Part">
+                <ScalarProperty Name="PartID" ColumnName="PartID" />
+                <ScalarProperty Name="PartName" ColumnName="PartName" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="StockLeft" ColumnName="StockLeft" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Repair">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.Repair">
+              <MappingFragment StoreEntitySet="Repair">
+                <ScalarProperty Name="RepairID" ColumnName="RepairID" />
+                <ScalarProperty Name="CarID" ColumnName="CarID" />
+                <ScalarProperty Name="WarrantyID" ColumnName="WarrantyID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warranty">
+            <EntityTypeMapping TypeName="AutoServiceDBModel.Warranty">
+              <MappingFragment StoreEntitySet="Warranty">
+                <ScalarProperty Name="WarrantyID" ColumnName="WarrantyID" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Terms" ColumnName="Terms" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DiagnosticsPart" TypeName="AutoServiceDBModel.DiagnosticsPart" StoreEntitySet="DiagnosticsPart">
+            <EndProperty Name="Diagnostics">
+              <ScalarProperty Name="DiagnosticsID" ColumnName="DiagnosticsID" />
+            </EndProperty>
+            <EndProperty Name="Part">
+              <ScalarProperty Name="PartID" ColumnName="PartID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

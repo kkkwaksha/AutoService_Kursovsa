@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3ee9444b94ab48158d371d3459455abe" Name="Diagram1">
+        <EntityTypeShape EntityType="AutoServiceDBModel.Car" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.CarOwner" Width="1.5" PointX="1.5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.DemandDocument" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.Diagnostics" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.DocumentLine" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.Employee" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.Part" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.Repair" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AutoServiceDBModel.Warranty" Width="1.5" PointX="3.75" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__Car__OwnerID__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__Repair__CarID__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK_Diagnostics_Car" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__DemandDoc__Repai__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__DocumentL__Docum__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__Diagnosti__Emplo__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__DocumentL__PartI__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__Repair__Employee__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.FK__Repair__Warranty__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="AutoServiceDBModel.DiagnosticsPart" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
